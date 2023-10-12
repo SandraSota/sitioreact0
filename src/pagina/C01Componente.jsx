@@ -3,7 +3,7 @@ import React from 'react'
 const C01Componente = () => {
   return (
     <div>
-        <hd>Componenete 01</hd>
+        <h1>Componenete 01</h1>
         Primer componenete definida
 
     </div>
