@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
       <C01Componente/>
-        Sandra
+        Hola mundo
 
     </div>
   );

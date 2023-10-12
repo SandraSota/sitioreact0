@@ -4,7 +4,8 @@ const C01Componente = () => {
   return (
     <div>
         <hd>Componenete 01</hd>
-        
+        Primer componenete definida
+
     </div>
   )
 }
