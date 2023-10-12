@@ -5,7 +5,6 @@ const C01Componente = () => {
     <div>
         <h1>Componenete 01</h1>
         Primer componenete definida
-
     </div>
   )
 }
