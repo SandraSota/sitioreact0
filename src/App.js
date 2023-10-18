@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+//import './App.css';
 import C01Componente from './pagina/C01Componente';
 
 function App() {
@@ -7,6 +7,8 @@ function App() {
     <div>
       <C01Componente/>
         Hola mundo
+        <i class="large material-icons">insert_chart</i>
+
 
     </div>
   );
