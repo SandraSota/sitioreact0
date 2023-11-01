@@ -1,8 +1,8 @@
 //import logo from './logo.svg';
 //import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppForm from './componente/AppForm';
-import { collection, doc, onSnapshot, query } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, query } from 'firebase/firestore';
 import { db } from './componente/firebase';
 //import C01Componente from './pagina/C01Componente';
 
@@ -25,12 +25,19 @@ function App() {
     }
   }
 
-  fnRead();
+  useEffect(  () => {
+    fnRead();
+  }, []);
 
   ///Eliminar///
   const [idActual,setIdActual]= useState("");
-  const fnDelete =(xId) => {
+  
+  const fnDelete = async(xId) => {
+    if(window.confirm("Confirme para eliminar")){
+      await deleteDoc(doc(db, 'persona', xId));
+      console.log("Se elimino..."+xId);
     }
+  }
 
   return (
     <div style={{width:"350px", background:"greenyellow", padding:"10px"}}>

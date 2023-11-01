@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react'
 import { db } from './firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 
-const AppForm = () => {
+const AppForm = (props) => {
 
     const camposRegistro = { nombre:"", edad:"", genero:""}
     const [objeto, setObjeto] = useState(camposRegistro);
     //console.log(objeto);
 
-    const handleSubmit = (e) => {  //manejador de submit
+    const handleSubmit = async (e) => {  //manejador de submit
         e.preventDefault();
 
         try {
-            if(validarForm()){
-
-                addDoc(collection(db, 'persona'), objeto);
-                console.log("Se guardo con exito");
-            } else {
-                console.log("No se guardo");
+            if(props.idActual === ""){
+                if(validarForm()){
+                    addDoc(collection(db, 'persona'), objeto);
+                    console.log("Se guardo con exito");
+                } else {
+                    console.log("No se guardo");
+                }
+            }else{
+                await updateDoc(doc(collection(db,'persona'),props.idActual),objeto);
+                console.log("Se actualizo correctamente");
+                props.setIdActual("");  
             }
-        } catch (error) {
-          console.error();  
-        }
+            setObjeto(camposRegistro);
+        } catch(error){
+            console.log("Error en CREAR o UPDATE: ",error);
+        }   
     }
     
     const handleStatusChange = (e) => {
@@ -38,6 +44,24 @@ const AppForm = () => {
             return false;
         }
         return true;
+    }
+
+    useEffect(() => {
+        if(props.idActual === ""){
+            setObjeto({...camposRegistro});
+        }else{
+            obtenerDatosPorId(props.idActual);
+        }
+    }, [props.idActual]);
+
+    const obtenerDatosPorId = async (xId) =>{
+        const objPorId = doc(db, 'persona', xId);
+        const docPorId = await getDoc(objPorId);
+        if (docPorId.exists()) {
+            setObjeto(docPorId.data());
+        } else {
+            alert("No hay doc... ");
+        }
     }
 
     return (
@@ -60,7 +84,7 @@ const AppForm = () => {
                     <option value ="F">Femenino </option>
                 </select>
                 <button>
-                    Guardar / Actualizar
+                    {props.idActual==="" ? "Guardar":"Actualizar"}
                 </button>
             </form>
         </div>
@@ -68,4 +92,3 @@ const AppForm = () => {
 }
 
 export default AppForm
-
