@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootswatch/dist/journal/bootstrap.min.css';
+import { AuthProvider } from './ruteo/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider> { /* (8) Envolviendo App con el componente proveedor */ }
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 
